@@ -45,9 +45,11 @@ describe('votingdapp', () => {
     )
     const candidate = await program.account.candidate.fetch(pollAddress)
     expect(candidate.candidateName).toEqual("Test Candidate")
+    expect(candidate.candidateVotes.toNumber()).toEqual(0)
     console.log("Candidate: ", candidate)
   })
 
   it('Vote', async () => {
+    await program.methods.vote(/*"Test Candidate", new anchor.BN(1)*/).rpc()
   })
 })
