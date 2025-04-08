@@ -31,13 +31,13 @@ pub mod votingdapp {
         Ok(())
     }
 
-    pub fn vote(ctx: Context<Vote>) -> Result<()> {
+    pub fn vote(ctx: Context<Vote>, _candidate_name: String, _poll_id: u64) -> Result<()> {
         let candidate = &mut ctx.accounts.candidate;
         let _poll = &mut ctx.accounts.poll;
         let voter = &mut ctx.accounts.signer;
 
         // Check if the voter has already voted
-        // require!(voter.key != candidate.key(), ErrorCode::AlreadyVoted);
+        //require!(voter.key != candidate.key(), ErrorCode::AlreadyVoted);
 
         // Increment the candidate's votes
         candidate.candidate_votes += 1;

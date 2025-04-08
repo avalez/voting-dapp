@@ -176,7 +176,12 @@ export type Votingdapp = {
           "address": "11111111111111111111111111111111"
         }
       ],
-      "args": []
+      "args": [
+        {
+          "name": "candidateName",
+          "type": "string"
+        }
+      ]
     }
   ],
   "accounts": [

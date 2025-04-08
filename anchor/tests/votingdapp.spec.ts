@@ -50,6 +50,6 @@ describe('votingdapp', () => {
   })
 
   it('Vote', async () => {
-    await program.methods.vote(/*"Test Candidate", new anchor.BN(1)*/).rpc()
+    await program.methods.vote("Test Candidate", new anchor.BN(1)).rpc()
   })
 })
