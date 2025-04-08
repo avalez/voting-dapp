@@ -33,6 +33,7 @@ export type Votingdapp = {
         },
         {
           "name": "poll",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -158,6 +159,7 @@ export type Votingdapp = {
         },
         {
           "name": "candidate",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -180,6 +182,10 @@ export type Votingdapp = {
         {
           "name": "candidateName",
           "type": "string"
+        },
+        {
+          "name": "pollId",
+          "type": "u64"
         }
       ]
     }
