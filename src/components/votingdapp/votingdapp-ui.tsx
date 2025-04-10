@@ -12,7 +12,10 @@ export function VotingdappCreate() {
   return (
     <button
       className="btn btn-xs lg:btn-md btn-primary"
-      onClick={() => initialize.mutateAsync(Keypair.generate())}
+      onClick={() => {
+        const keypair = Keypair.generate();
+        initialize.mutateAsync();
+      }}
       disabled={initialize.isPending}
     >
       Create {initialize.isPending && '...'}
@@ -58,16 +61,17 @@ function VotingdappCard({ account }: { account: PublicKey }) {
     account,
   })
 
-  const count = useMemo(() => accountQuery.data?.count ?? 0, [accountQuery.data?.count])
+  const count = useMemo(() => accountQuery.data?.candidateVotes ?? 0, [accountQuery.data?.candidateVotes])
 
   return accountQuery.isLoading ? (
     <span className="loading loading-spinner loading-lg"></span>
   ) : (
     <div className="card card-bordered border-base-300 border-4 text-neutral-content">
       <div className="card-body items-center text-center">
+        {/* 
         <div className="space-y-6">
           <h2 className="card-title justify-center text-3xl cursor-pointer" onClick={() => accountQuery.refetch()}>
-            {count}
+            {count} 
           </h2>
           <div className="card-actions justify-around">
             <button
@@ -116,6 +120,7 @@ function VotingdappCard({ account }: { account: PublicKey }) {
             </button>
           </div>
         </div>
+        */}
       </div>
     </div>
   )

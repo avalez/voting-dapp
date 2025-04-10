@@ -30,7 +30,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const url = new URL(request.url)
   const { searchParams } = url
-  const candidate = searchParams.get('candidate')
+  const candidate = searchParams.get('candidate') ?? ''
+  if (!candidate) {
+    return new Response('Candidate not found', { status: 400 })
+  }
   const connection = new Connection('http://localhost:8899', "confirmed")
 	const program : Program<Votingdapp> = new Program(IDL, {connection})
   const body: ActionPostRequest = await request.json()
@@ -57,6 +60,7 @@ export async function POST(request: Request) {
 
   const response = await createPostResponse({
     fields: {
+      type: "transaction",
       transaction,
     }
   })

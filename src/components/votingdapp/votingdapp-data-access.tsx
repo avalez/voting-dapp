@@ -19,8 +19,8 @@ export function useVotingdappProgram() {
   const program = useMemo(() => getVotingdappProgram(provider, programId), [provider, programId])
 
   const accounts = useQuery({
-    queryKey: ['votingdapp', 'all', { cluster }],
-    queryFn: () => program.account.votingdapp.all(),
+    queryKey: ['candidate', 'all', { cluster }],
+    queryFn: () => program.account.candidate.all(),
   })
 
   const getProgramAccount = useQuery({
@@ -29,14 +29,16 @@ export function useVotingdappProgram() {
   })
 
   const initialize = useMutation({
+    /*
     mutationKey: ['votingdapp', 'initialize', { cluster }],
     mutationFn: (keypair: Keypair) =>
-      program.methods.initialize().accounts({ votingdapp: keypair.publicKey }).signers([keypair]).rpc(),
+      program.methods.initializePoll( ).accounts({ votingdapp: keypair.publicKey }).signers([keypair]).rpc(),
     onSuccess: (signature) => {
       transactionToast(signature)
       return accounts.refetch()
     },
-    onError: () => toast.error('Failed to initialize account'),
+    onError: () => toast.error('Failed to initialize candidate'),
+    */
   })
 
   return {
@@ -53,46 +55,51 @@ export function useVotingdappProgramAccount({ account }: { account: PublicKey })
   const transactionToast = useTransactionToast()
   const { program, accounts } = useVotingdappProgram()
 
-  const accountQuery = useQuery({
-    queryKey: ['votingdapp', 'fetch', { cluster, account }],
-    queryFn: () => program.account.votingdapp.fetch(account),
+  const accountQuery = 
+  useQuery({
+    queryKey: ['candidate', 'fetch', { cluster, account }],
+    queryFn: () => program.account.candidate.fetch(account),
   })
 
-  const closeMutation = useMutation({
-    mutationKey: ['votingdapp', 'close', { cluster, account }],
-    mutationFn: () => program.methods.close().accounts({ votingdapp: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accounts.refetch()
-    },
-  })
+  const closeMutation = () => {} 
+  // useMutation({
+  //   mutationKey: ['votingdapp', 'close', { cluster, account }],
+  //   mutationFn: () => program.methods.close().accounts({ votingdapp: account }).rpc(),
+  //   onSuccess: (tx) => {
+  //     transactionToast(tx)
+  //     return accounts.refetch()
+  //   },
+  // })
 
-  const decrementMutation = useMutation({
-    mutationKey: ['votingdapp', 'decrement', { cluster, account }],
-    mutationFn: () => program.methods.decrement().accounts({ votingdapp: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
+  const decrementMutation = () => {}
+  // useMutation({
+  //   mutationKey: ['votingdapp', 'decrement', { cluster, account }],
+  //   mutationFn: () => program.methods.decrement().accounts({ votingdapp: account }).rpc(),
+  //   onSuccess: (tx) => {
+  //     transactionToast(tx)
+  //     return accountQuery.refetch()
+  //   },
+  // })
 
-  const incrementMutation = useMutation({
-    mutationKey: ['votingdapp', 'increment', { cluster, account }],
-    mutationFn: () => program.methods.increment().accounts({ votingdapp: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
+  const incrementMutation = () => {}
+  //  useMutation({
+  //   mutationKey: ['votingdapp', 'increment', { cluster, account }],
+  //   mutationFn: () => program.methods.increment().accounts({ votingdapp: account }).rpc(),
+  //   onSuccess: (tx) => {
+  //     transactionToast(tx)
+  //     return accountQuery.refetch()
+  //   },
+  // })
 
-  const setMutation = useMutation({
-    mutationKey: ['votingdapp', 'set', { cluster, account }],
-    mutationFn: (value: number) => program.methods.set(value).accounts({ votingdapp: account }).rpc(),
-    onSuccess: (tx) => {
-      transactionToast(tx)
-      return accountQuery.refetch()
-    },
-  })
+  const setMutation = () => {}
+  //  useMutation({
+  //   mutationKey: ['votingdapp', 'set', { cluster, account }],
+  //   mutationFn: (value: number) => program.methods.set(value).accounts({ votingdapp: account }).rpc(),
+  //   onSuccess: (tx) => {
+  //     transactionToast(tx)
+  //     return accountQuery.refetch()
+  //   },
+  // })
 
   return {
     accountQuery,
