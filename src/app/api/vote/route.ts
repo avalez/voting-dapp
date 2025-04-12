@@ -44,12 +44,16 @@ export async function POST(request: Request) {
     return new Response('Invalid account', { status: 400 })
   }
 
+  console.log("Voter: ", voter)
+
   const instruction = await program.methods
     .vote(candidate, new BN(1))
     .accounts({
       signer: voter
     })
     .instruction()
+
+  console.log("Instruction: ", instruction)
 
   const blockhash = await connection.getLatestBlockhash()
   const transaction = new web3.Transaction({
@@ -58,7 +62,10 @@ export async function POST(request: Request) {
     lastValidBlockHeight: blockhash.lastValidBlockHeight,
   }).add(instruction)
 
+  console.log("Transaction: ", transaction)
+
   const response = await createPostResponse({
+    //simulate: true,
     fields: {
       type: "transaction",
       transaction,
