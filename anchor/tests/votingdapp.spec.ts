@@ -49,6 +49,21 @@ describe('votingdapp', () => {
     console.log("Candidate: ", candidate)
   })
 
+  it('Initialize Candidate 2', async () => {
+    console.log("Calling initialize candidate 2");
+    await program.methods
+      .initializeCandidate("Vote2", new anchor.BN(1))
+      .rpc()
+    const [pollAddress] = await PublicKey.findProgramAddressSync(
+      [new anchor.BN(1).toArrayLike(Buffer, 'le', 8), Buffer.from("Vote2")],
+      voitingAdress
+    )
+    const candidate = await program.account.candidate.fetch(pollAddress)
+    expect(candidate.candidateName).toEqual("Vote2")
+    expect(candidate.candidateVotes.toNumber()).toEqual(0)
+    console.log("Candidate 2: ", candidate)
+  })
+
   it('Vote', async () => {
     await program.methods.vote("Vote1", new anchor.BN(1)).rpc()
   })

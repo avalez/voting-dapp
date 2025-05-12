@@ -5,16 +5,18 @@ import { useMemo } from 'react'
 import { ellipsify } from '../ui/ui-layout'
 import { ExplorerLink } from '../cluster/cluster-ui'
 import { useVotingdappProgram, useVotingdappProgramAccount } from './votingdapp-data-access'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 export function VotingdappCreate() {
   const { initialize } = useVotingdappProgram()
+  const { publicKey } = useWallet()
 
   return (
     <button
       className="btn btn-xs lg:btn-md btn-primary"
       onClick={() => {
         const keypair = Keypair.generate();
-        initialize.mutateAsync();
+        initialize.mutateAsync(publicKey || keypair.publicKey);
       }}
       disabled={initialize.isPending}
     >
@@ -68,7 +70,7 @@ function VotingdappCard({ account }: { account: PublicKey }) {
   ) : (
     <div className="card card-bordered border-base-300 border-4 text-neutral-content">
       <div className="card-body items-center text-center">
-        {/* 
+        {
         <div className="space-y-6">
           <h2 className="card-title justify-center text-3xl cursor-pointer" onClick={() => accountQuery.refetch()}>
             {count} 
@@ -120,7 +122,7 @@ function VotingdappCard({ account }: { account: PublicKey }) {
             </button>
           </div>
         </div>
-        */}
+        }
       </div>
     </div>
   )
